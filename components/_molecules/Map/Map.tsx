@@ -59,7 +59,26 @@ export default function Map({ data }: MapProps) {
           onCloseClick={() => setSelectedCamp(null)}
         >
           <div>
-            <h5 className='mt-2'>{selectedCamp.properties.ASSET_DESC}</h5>
+            <div className='d-flex align-items-baseline'>
+              <h5 className='mt-2'>{selectedCamp.properties.ASSET_DESC}</h5>
+              {Math.random() > 0.5 ? (
+                <button
+                  className='btn btn-link'
+                  onClick={() => console.log('Remove from favorites campground', selectedCamp)}
+                  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove from favourites"
+                >
+                  <i className='bi bi-heart-fill'></i>
+                </button>
+              ) : (
+                <button
+                  className='btn btn-link'
+                  onClick={() => console.log('Add to favorites campground', selectedCamp)}
+                  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to favourites"
+                >
+                  <i className='bi bi-heart'></i>
+                </button>
+              )}
+            </div>
             <p>{selectedCamp.properties.PARK_NAME}</p>
           </div>
         </InfoWindow>
