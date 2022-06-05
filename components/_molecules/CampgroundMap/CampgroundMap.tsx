@@ -8,18 +8,18 @@ const containerStyle = {
   height: '60vh',
 };
 
-interface MapProps {
+interface CampgroundMap {
   data: any[];
 }
 
-export default function Map({ data }: MapProps) {
+export default function CampgroundMap({ data }: CampgroundMap) {
   const mapRef = useRef<GoogleMap>();
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: -25.274399, lng: 133.775131 }),
     []
   );
 
-  // Workaround to show markers on load, until find a better way
+  // * Workaround to render markers on load.
   const [campgrounds, setCampgrounds] = useState<any[]>([]);
   useEffect(() => {
     setCampgrounds(data);

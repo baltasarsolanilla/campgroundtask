@@ -17,6 +17,7 @@ const Home: NextPage = () => {
     if (!searchText) {
       return setFilteredData(dataTable);
     }
+    // TODO: update threshold to 0.6 when no more testing
     const threshold = 0.2;
     const newData = dataTable.filter((campground) => {
       const { ASSET_DESC, PARK_NAME } = campground.properties;
