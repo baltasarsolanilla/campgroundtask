@@ -11,11 +11,11 @@ export default function CampgroundTable({ data, totalItems }: CampgroundTablePro
     () => [
       {
         Header: 'Name',
-        accessor: 'properties.PARK_NAME',
+        accessor: 'properties.ASSET_DESC',
       },
       {
-        Header: 'Description',
-        accessor: 'properties.ASSET_DESC',
+        Header: 'Park',
+        accessor: 'properties.PARK_NAME',
       },
       {
         Header: 'Sitename',
