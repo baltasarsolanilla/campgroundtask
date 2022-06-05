@@ -4,14 +4,14 @@ import { SearchBar } from '../components/_atoms';
 import styles from '../styles/Home.module.css';
 import { CampgroundsMock } from '../components/mockData/campgroundsToObject';
 import { isPartialMatch } from '../components/utils';
-import { CampgroundTable } from '../components/_molecules';
+import { CampgroundTable, Map } from '../components/_molecules';
 
 const dataTable = CampgroundsMock.slice(0, 100);
 
 const Home: NextPage = () => {
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState(dataTable);
-  const [mapView, setMapView] = useState(false);
+  const [tableView, setTableView] = useState(true);
 
   const searchResults = () => {
     if (!searchText) {
@@ -37,14 +37,17 @@ const Home: NextPage = () => {
           onSearch={searchResults}
           onChange={setSearchText}
         />
-        {/* ADD SHOW MAP (ICON) SHOW TABLE (ICON) TOGGLE BUTTON */}
-        <CampgroundTable data={filteredData} totalItems={dataTable.length} />
+        {tableView ? (
+          <CampgroundTable data={filteredData} totalItems={dataTable.length} />
+        ) : (
+          <Map data={filteredData} />
+        )}
         <button
           type='button'
           className={`btn btn-secondary ${styles.viewButton}`}
-          onClick={() => setMapView((v) => !v)}
+          onClick={() => setTableView((v) => !v)}
         >
-          {mapView ? (
+          {tableView ? (
             <>
               Show map <i className='bi bi-map-fill'></i>
             </>

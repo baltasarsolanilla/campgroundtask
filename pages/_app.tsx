@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Head from 'next/head';
+import { LoadScript } from '@react-google-maps/api';
 
 function AppWrapper({ Component, pageProps }: AppProps) {
   return (
@@ -18,7 +19,11 @@ function AppWrapper({ Component, pageProps }: AppProps) {
       </Head>
       <div className='backgroundImage'></div>
       <div id='wrapper' className='shadow-lg'>
-        <Component {...pageProps} />
+        <LoadScript
+          googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+        >
+          <Component {...pageProps} />
+        </LoadScript>
       </div>
     </>
   );
