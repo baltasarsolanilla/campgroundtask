@@ -1,0 +1,13 @@
+.viewButton {
+  position: absolute;
+  width: fit-content;
+  margin: auto;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  bottom: -24px;
+}
+
+.finderContainer {
+  position: relative;
+}

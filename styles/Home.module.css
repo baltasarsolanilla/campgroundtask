@@ -19,12 +19,3 @@
   padding-bottom: 18px;
   text-align: center;
 }
-
-.viewButton {
-  position: fixed;
-  width: fit-content;
-  margin: auto;
-  left: 0;
-  right: 0;
-  z-index: 999;
-}

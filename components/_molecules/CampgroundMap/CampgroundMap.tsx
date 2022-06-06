@@ -10,9 +10,15 @@ const containerStyle = {
 
 interface CampgroundMap {
   data: any[];
+  addFavourite: Function;
+  removeFavourite: Function;
 }
 
-export default function CampgroundMap({ data }: CampgroundMap) {
+export default function CampgroundMap({
+  data,
+  addFavourite,
+  removeFavourite,
+}: CampgroundMap) {
   const mapRef = useRef<GoogleMap>();
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: -25.274399, lng: 133.775131 }),
@@ -61,19 +67,24 @@ export default function CampgroundMap({ data }: CampgroundMap) {
           <div>
             <div className='d-flex align-items-baseline'>
               <h5 className='mt-2'>{selectedCamp.properties.ASSET_DESC}</h5>
+              {/* // TODO: change for one button and toggle favourite value. */}
               {Math.random() > 0.5 ? (
                 <button
                   className='btn btn-link'
-                  onClick={() => console.log('Remove from favorites campground', selectedCamp)}
-                  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove from favourites"
+                  onClick={() => removeFavourite(selectedCamp)}
+                  data-bs-toggle='tooltip'
+                  data-bs-placement='bottom'
+                  title='Remove from favourites'
                 >
                   <i className='bi bi-heart-fill'></i>
                 </button>
               ) : (
                 <button
                   className='btn btn-link'
-                  onClick={() => console.log('Add to favorites campground', selectedCamp)}
-                  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to favourites"
+                  onClick={() => addFavourite(selectedCamp)}
+                  data-bs-toggle='tooltip'
+                  data-bs-placement='bottom'
+                  title='Add to favourites'
                 >
                   <i className='bi bi-heart'></i>
                 </button>
