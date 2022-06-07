@@ -38,4 +38,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ```bash
 npm install
 npm run dev
+
+To hit the backend, you will need to set the port where this app is running to 3000, and change env.local. file with corresponding port of API
 ```
