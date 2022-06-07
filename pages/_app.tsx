@@ -4,6 +4,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Head from 'next/head';
 import { LoadScript } from '@react-google-maps/api';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function AppWrapper({ Component, pageProps }: AppProps) {
   return (
@@ -22,7 +25,9 @@ function AppWrapper({ Component, pageProps }: AppProps) {
         <LoadScript
           googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
         >
-          <Component {...pageProps} />
+          <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+          </QueryClientProvider>
         </LoadScript>
       </div>
     </>

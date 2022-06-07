@@ -1,33 +1,31 @@
 import { useState, useEffect } from 'react';
 import { SearchBar } from '../../_atoms';
-import { CampgroundsMock } from '../../mockData/campgroundsToObject';
 import { isPartialMatch } from '../../utils';
 import { CampgroundTable, Map } from '../../_molecules';
 import styles from './Finder.module.css';
 
-const dataTable = CampgroundsMock.slice(0, 100);
 
 interface FinderProps {
-  campgrounds?: any[];
+  campgrounds: any[];
 }
 
-export default function Finder({ campgrounds }: FinderProps) {
+export default function Finder({ campgrounds = [] }: FinderProps) {
   const [searchText, setSearchText] = useState('');
-  const [data, setData] = useState(dataTable);
-  const [filteredData, setFilteredData] = useState(dataTable);
+  const [filteredData, setFilteredData] = useState(campgrounds);
   const [tableView, setTableView] = useState(true);
+  
 
   useEffect(() => {
     searchResults();
-  }, [data]);
+  }, [campgrounds]);
 
   const searchResults = () => {
     if (!searchText) {
-      return setFilteredData(data);
+      return setFilteredData(campgrounds);
     }
     // TODO: update threshold to 0.6 when no more testing
     const threshold = 0.2;
-    const newData = data.filter((campground) => {
+    const newData = campgrounds.filter((campground) => {
       const { ASSET_DESC, PARK_NAME } = campground.properties;
       return (
         isPartialMatch(searchText, ASSET_DESC, threshold) ||
@@ -37,19 +35,6 @@ export default function Finder({ campgrounds }: FinderProps) {
     setFilteredData(newData);
   };
 
-  const addFavourite = (campground: any) => {
-    const newData = data.map((c) =>
-      c.id === campground.id ? { ...c, favourite: true } : { ...c }
-    );
-    setData(newData);
-  };
-
-  const removeFavourite = (campground: any) => {
-    const newData = data.map((c) =>
-      c.id === campground.id ? { ...c, favourite: false } : { ...c }
-    );
-    setData(newData);
-  };
 
   return (
     <div className={styles.finderContainer}>
@@ -59,12 +44,12 @@ export default function Finder({ campgrounds }: FinderProps) {
         onChange={setSearchText}
       />
       {tableView ? (
-        <CampgroundTable data={filteredData} totalItems={data.length} />
+        <CampgroundTable data={filteredData} totalItems={campgrounds.length} />
       ) : (
         <Map
           data={filteredData}
-          addFavourite={(campground: any) => addFavourite(campground)}
-          removeFavourite={(campground: any) => removeFavourite(campground)}
+          addFavourite={(campground: any) => console.log(campground)}
+          removeFavourite={(campground: any) => console.log(campground)}
         />
       )}
       <button

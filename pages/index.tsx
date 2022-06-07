@@ -4,16 +4,16 @@ import styles from '../styles/Home.module.css';
 import { Tabs } from '../components/layouts';
 import { Finder, Favourites } from '../components/_organisms';
 import axios from 'axios';
+import { useQuery } from 'react-query';
 
 const Home: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState('finder');
-  const [campgrounds, setCampgrounds] = useState<any[]>([]);
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_CAMPGROUNDS_API_URL}/api/campgrounds`)
-      .then((res) => setCampgrounds(res.data));
-  }, []);
+  const getCampgrounds = async () => {
+    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_CAMPGROUNDS_API_URL}/api/Campground`);
+    return data;
+  };
+  const { isLoading, data, error } = useQuery('campgrounds', getCampgrounds, { select: (data) => data.features});
 
   return (
     <div>
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
               title: 'Finder',
               selected: selectedTab === 'finder',
               onSelect: () => setSelectedTab('finder'),
-              content: <Finder campgrounds={campgrounds} />,
+              content: <Finder campgrounds={data} />,
             },
             {
               id: 'favourites',
@@ -43,22 +43,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  try {
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_CAMPGROUNDS_API_URL}/api/campgrounds`
-    );
-    if (data) {
-      return {
-        props: {
-          campgrounds: data,
-        },
-      };
-    }
-  } catch (e) {
-    console.log(e);
-  }
-
-  return { props: {} };
-};
