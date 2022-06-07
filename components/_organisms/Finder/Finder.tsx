@@ -7,7 +7,11 @@ import styles from './Finder.module.css';
 
 const dataTable = CampgroundsMock.slice(0, 100);
 
-export default function Finder() {
+interface FinderProps {
+  campgrounds?: any[];
+}
+
+export default function Finder({ campgrounds }: FinderProps) {
   const [searchText, setSearchText] = useState('');
   const [data, setData] = useState(dataTable);
   const [filteredData, setFilteredData] = useState(dataTable);

@@ -6,7 +6,7 @@ interface TabsProps {
     title: string;
     selected: boolean;
     onSelect: Function;
-    component: ReactNode;
+    content: ReactNode;
   }[];
 }
 export default function Tabs({ tabs }: TabsProps) {
@@ -26,7 +26,7 @@ export default function Tabs({ tabs }: TabsProps) {
           </li>
         ))}
       </ul>
-      {tabs.find((t) => t.selected)?.component}
+      {tabs.find((t) => t.selected)?.content}
     </>
   );
 }

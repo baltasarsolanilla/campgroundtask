@@ -1,11 +1,19 @@
-import { useState } from 'react';
-import type { NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import type { GetServerSideProps, NextPage } from 'next';
 import styles from '../styles/Home.module.css';
 import { Tabs } from '../components/layouts';
-import Finder from '../components/_organisms/Finder/Finder';
+import { Finder, Favourites } from '../components/_organisms';
+import axios from 'axios';
 
 const Home: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState('finder');
+  const [campgrounds, setCampgrounds] = useState<any[]>([]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_CAMPGROUNDS_API_URL}/api/campgrounds`)
+      .then((res) => setCampgrounds(res.data));
+  }, []);
 
   return (
     <div>
@@ -18,14 +26,14 @@ const Home: NextPage = () => {
               title: 'Finder',
               selected: selectedTab === 'finder',
               onSelect: () => setSelectedTab('finder'),
-              component: <Finder />,
+              content: <Finder campgrounds={campgrounds} />,
             },
             {
               id: 'favourites',
               title: 'Favourites',
               selected: selectedTab === 'favourites',
               onSelect: () => setSelectedTab('favourites'),
-              component: <h1>TODO</h1>,
+              content: <Favourites />,
             },
           ]}
         />
@@ -35,3 +43,22 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_CAMPGROUNDS_API_URL}/api/campgrounds`
+    );
+    if (data) {
+      return {
+        props: {
+          campgrounds: data,
+        },
+      };
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
+  return { props: {} };
+};
